@@ -1,0 +1,23 @@
+services: 
+  backend_eval:
+    build:
+      context: ./backend_eval #folder where Dockerfile & app code live
+    container_name: backend-ppfv
+    image: backend-ppfv:1.0
+    ports: 
+      - 8000:8000 #host:container
+    depends_on:
+      - backend_database #makes sure the db container starts first
+
+  backend_database:
+    build:
+      context: ./backend_database
+    container_name: backend-database
+    image: backend-database
+    ports:
+      - 8001:8001
+    volumes:
+      - db_data:/backend_database #persists features.db file even after container restarts
+
+volumes:
+  db_data:  #named volume defined here 
